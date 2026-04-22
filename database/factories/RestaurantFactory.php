@@ -16,14 +16,14 @@ class RestaurantFactory extends Factory
      */
     public function definition(): array
     {
-        $categories = ['Cơm Dĩa', 'Bánh mỳ', 'Bú phở'];
+        $categories = ['Cơm Dĩa', 'Bánh mì', 'Bú phở'];
         $dishNames = [
-            'Cơm Siêu Mai' => 'Cơm Dĩa',
+            'Cơm Siễu Mai' => 'Cơm Dĩa',
             'Cơm Chay' => 'Cơm Dĩa',
             'Cơm Gà Xá' => 'Cơm Dĩa',
-            'Bánh mì Heo Quay' => 'Bánh mỳ',
-            'Bánh mì Gà Xá' => 'Bánh mỳ',
-            'Bánh mì Xá Xíu' => 'Bánh mỳ',
+            'Bánh mì Heo Quay' => 'Bánh mì',
+            'Bánh mì Gà Xá' => 'Bánh mì',
+            'Bánh mì Xá Xíu' => 'Bánh mì',
             'Bún Bò Huế' => 'Bú phở',
             'Phở Gà' => 'Bú phở',
             'Phở Bò' => 'Bú phở',

@@ -38,7 +38,7 @@
                                 <select name="category" class="form-control @error('category') is-invalid @enderror">
                                     <option value="">-- Chọn danh mục --</option>
                                     <option value="Cơm Dĩa" {{ old('category') == 'Cơm Dĩa' ? 'selected' : '' }}>Cơm Dĩa</option>
-                                    <option value="Bánh mỳ" {{ old('category') == 'Bánh mỳ' ? 'selected' : '' }}>Bánh mỳ</option>
+                                    <option value="Bánh mì" {{ old('category') == 'Bánh mì' ? 'selected' : '' }}>Bánh mì</option>
                                     <option value="Bú phở" {{ old('category') == 'Bú phở' ? 'selected' : '' }}>Bú phở</option>
                                 </select>
                                 @error('category')

@@ -11,7 +11,7 @@ class RestaurantController extends Controller
 {
     public function index()
     {
-        $categories = ['Cơm Dĩa', 'Bánh mỳ', 'Bú phở'];
+        $categories = ['Cơm Dĩa', 'Bánh mì', 'Bú phở'];
         $dishesByCategories = [];
         foreach ($categories as $cat) {
             $dishesByCategories[$cat] = Restaurant::where('category', $cat)->get();
