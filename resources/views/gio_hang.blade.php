@@ -47,7 +47,11 @@
                         </td>
 
                         <td class="product-quantity">
-                            <input type="number" value="{{ $cart['qty'] }}" style="width: 50px" readonly>
+                            <form action="{{ route('banhang.updatecart', $cart['item']['id']) }}" method="POST" style="display:flex; align-items:center;">
+                                @csrf
+                                <input type="number" name="qty" value="{{ $cart['qty'] }}" style="width: 50px; margin-right:5px;" min="1">
+                                <button type="submit" class="btn btn-sm btn-info" style="padding: 2px 5px;"><i class="fa fa-refresh"></i></button>
+                            </form>
                         </td>
 
                         <td class="product-subtotal">

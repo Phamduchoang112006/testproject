@@ -11,6 +11,7 @@ use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\ContactController;
 
 // 1. Trang chủ (Hiện bảng 2 sự lựa chọn)
 Route::get('/', function () {
@@ -81,12 +82,17 @@ Route::prefix('rooms')->group(function() {
 // Bài tập Bán hàng
 Route::get('/trangchu',[PageController::class,'getIndex'])->name('banhang.index');
 Route::get('/chitiet/{sanpham_id}',[PageController::class,'getChiTiet'])->name('banhang.chitiet');
+Route::get('/loai-san-pham/{id}',[PageController::class,'getCategory'])->name('banhang.category');
 Route::get('/add-to-cart/{id}',[PageController::class,'addToCart'])->name('banhang.addtocart');
+Route::post('/update-cart/{id}',[PageController::class,'updateCart'])->name('banhang.updatecart');
 Route::get('/del-cart/{id}',[PageController::class,'delCart'])->name('banhang.delcart');
 Route::get('/search',[PageController::class,'getSearch'])->name('banhang.search');
 Route::get('/shopping-cart',[PageController::class,'getCart'])->name('banhang.getcart');
 Route::get('/checkout',[PageController::class,'getCheckout'])->name('banhang.getcheckout');
 Route::post('/checkout',[PageController::class,'postCheckout'])->name('banhang.postcheckout');
+
+Route::get('/lienhe',[PageController::class,'getContact'])->name('banhang.getcontact');
+Route::post('/lienhe',[PageController::class,'postContact'])->name('banhang.postcontact');
 
 //đăng ký và đăng nhập của khách hàng
 Route::get('/dangky',[PageController::class,'getSignin'])->name('getsignin');
@@ -97,6 +103,11 @@ Route::post('/dangnhap',[PageController::class,'postLogin'])->name('postlogin');
 
 //đăng xuất
 Route::get('/dangxuat',[PageController::class,'getLogout'])->name('getlogout');
+
+Route::group(['prefix' => 'khach-hang', 'middleware' => 'auth'], function() {
+    Route::get('/thong-tin', [PageController::class, 'getProfile'])->name('khachhang.profile');
+    Route::post('/thong-tin', [PageController::class, 'postProfile'])->name('khachhang.postProfile');
+});
 
 // Admin routes
 Route::get('/admin/dangnhap',[UserController::class,'getLogin'])->name('admin.getLogin');
@@ -135,5 +146,18 @@ Route::group(['prefix'=>'admin','middleware'=>'adminLogin'],function(){
             Route::get('danhsach',[OrderController::class,'getOrderList'])->name('admin.getOrderList');
             Route::get('chitiet/{id}',[OrderController::class,'getOrderDetail'])->name('admin.getOrderDetail');
             Route::get('xoa/{id}',[OrderController::class,'getOrderDelete'])->name('admin.getOrderDelete');
+            Route::post('capnhat-trangthai/{id}',[OrderController::class,'postUpdateStatus'])->name('admin.postUpdateOrderStatus');
         });
+
+        Route::group(['prefix'=>'contact'],function(){
+            Route::get('danhsach',[ContactController::class,'getList'])->name('admin.getContactList');
+            Route::post('traloi/{id}',[ContactController::class,'postReply'])->name('admin.postContactReply');
+        });
+});
+
+// Bài tập Website Food
+Route::prefix('food')->group(function() {
+    Route::get('/', [\App\Http\Controllers\FoodController::class, 'index'])->name('food.index');
+    Route::get('/create', [\App\Http\Controllers\FoodController::class, 'create'])->name('food.create');
+    Route::post('/', [\App\Http\Controllers\FoodController::class, 'store'])->name('food.store');
 });

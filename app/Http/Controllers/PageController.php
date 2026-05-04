@@ -34,6 +34,12 @@ class PageController extends Controller
         return view('chitiet',compact('sanpham'));
     }
 
+    public function getCategory($id){
+        $category = \App\Models\Category::find($id);
+        $products = Product::where('id_type', $id)->paginate(8);
+        return view('loai_sanpham', compact('category', 'products'));
+    }
+
     //thêm 1 sản phẩm có id cụ thể vào model cart rồi lưu dữ liệu của model cart vào 1 session có tên cart (session được truy cập bằng thực thể Request)
     public function addToCart(Request $request,$id){
         $product=Product::find($id);
@@ -136,6 +142,18 @@ class PageController extends Controller
         return redirect()->back();
     }
 
+    public function updateCart(Request $req, $id){
+        $oldCart = Session::has('cart') ? Session::get('cart') : null;
+        $cart = new Cart($oldCart);
+        $cart->updateItem($id, $req->qty);
+        if(count($cart->items) > 0){
+            Session::put('cart', $cart);
+        } else {
+            Session::forget('cart');
+        }
+        return redirect()->back();
+    }
+
     public function getCheckout(){
         return view('dat_hang');
     }
@@ -168,7 +186,52 @@ class PageController extends Controller
             $bill_detail->unit_price = ($value['price']/$value['qty']);
             $bill_detail->save();
         }
+        
+        if($customer->email) {
+            \Illuminate\Support\Facades\Mail::to($customer->email)->send(new \App\Mail\OrderSuccess($bill));
+        }
+
         Session::forget('cart');
         return redirect()->back()->with('thongbao', 'Đặt hàng thành công');
+    }
+    public function getContact(){
+        return view('lienhe');
+    }
+
+    public function postContact(Request $request){
+        $request->validate([
+            'name' => 'required',
+            'email' => 'required|email',
+            'message' => 'required'
+        ]);
+        
+        $contact = new \App\Models\Contact();
+        $contact->name = $request->name;
+        $contact->email = $request->email;
+        $contact->message = $request->message;
+        $contact->status = 'chưa liên hệ';
+        $contact->save();
+        
+        return redirect()->back()->with('thongbao', 'Cảm ơn bạn đã liên hệ với chúng tôi!');
+    }
+    public function getProfile(){
+        if(!Auth::check()) return redirect()->route('getlogin');
+        $user = Auth::user();
+        $customers = Customer::where('email', $user->email)->pluck('id');
+        $bills = Bill::whereIn('id_customer', $customers)->orderBy('id', 'DESC')->get();
+        return view('profile', compact('user', 'bills'));
+    }
+
+    public function postProfile(Request $request){
+        if(!Auth::check()) return redirect()->route('getlogin');
+        $user = User::find(Auth::id());
+        $user->full_name = $request->full_name;
+        $user->phone = $request->phone;
+        $user->address = $request->address;
+        if($request->password) {
+            $user->password = Hash::make($request->password);
+        }
+        $user->save();
+        return redirect()->back()->with('thongbao', 'Cập nhật thông tin thành công');
     }
 }

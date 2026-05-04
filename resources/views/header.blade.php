@@ -13,7 +13,7 @@
                         @if(Auth::user()->level == 1 || Auth::user()->level == 2)
                             <li><a href="{{ route('admin.getCateList') }}"><i class="fa fa-cog"></i> Quản trị</a></li>
                         @endif
-                        <li><a href="#"><i class="fa fa-user"></i> Chào bạn {{ Auth::user()->full_name }}</a></li>
+                        <li><a href="{{ route('khachhang.profile') }}"><i class="fa fa-user"></i> Chào bạn {{ Auth::user()->full_name }}</a></li>
                         <li><a href="{{ route('getlogout') }}"><i class="fa fa-sign-out"></i> Đăng xuất</a></li>
                     @else
                         <li><a href="{{ route('admin.getLogin') }}"><i class="fa fa-lock"></i> Admin</a></li>
@@ -89,13 +89,13 @@
                     <li><a href="{{ route('banhang.index') }}">Trang chủ</a></li>
                     <li><a href="#">Sản phẩm</a>
                         <ul class="sub-menu">
-                            <li><a href="#">Sản phẩm 1</a></li>
-                            <li><a href="#">Sản phẩm 2</a></li>
-                            <li><a href="#">Sản phẩm 4</a></li>
+                            @foreach(\App\Models\Category::all() as $category)
+                                <li><a href="{{ route('banhang.category', $category->id) }}">{{ $category->name }}</a></li>
+                            @endforeach
                         </ul>
                     </li>
                     <li><a href="#">Giới thiệu</a></li>
-                    <li><a href="#">Liên hệ</a></li>
+                    <li><a href="{{ route('banhang.getcontact') }}">Liên hệ</a></li>
                 </ul>
                 <div class="clearfix"></div>
             </nav>
