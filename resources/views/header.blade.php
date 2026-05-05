@@ -3,8 +3,8 @@
         <div class="container">
             <div class="pull-left auto-width-left">
                 <ul class="top-menu menu-beta l-inline">
-                    <li><a href=""><i class="fa fa-home"></i> 90-92 Lê Thị Riêng, Bến Thành, Quận 1</a></li>
-                    <li><a href=""><i class="fa fa-phone"></i> 0163 296 7751</a></li>
+                    <li><a href=""><i class="fa fa-home"></i>Đà Nẵng</a></li>
+                    <li><a href=""><i class="fa fa-phone"></i> 0363 296 7751</a></li>
                 </ul>
             </div>
             <div class="pull-right auto-width-right">
@@ -13,7 +13,8 @@
                         @if(Auth::user()->level == 1 || Auth::user()->level == 2)
                             <li><a href="{{ route('admin.getCateList') }}"><i class="fa fa-cog"></i> Quản trị</a></li>
                         @endif
-                        <li><a href="{{ route('khachhang.profile') }}"><i class="fa fa-user"></i> Chào bạn {{ Auth::user()->full_name }}</a></li>
+                        <li><a href="{{ route('khachhang.profile') }}"><i class="fa fa-user"></i> Chào bạn
+                                {{ Auth::user()->full_name }}</a></li>
                         <li><a href="{{ route('getlogout') }}"><i class="fa fa-sign-out"></i> Đăng xuất</a></li>
                     @else
                         <li><a href="{{ route('admin.getLogin') }}"><i class="fa fa-lock"></i> Admin</a></li>
@@ -28,7 +29,8 @@
     <div class="header-body">
         <div class="container beta-relative">
             <div class="pull-left">
-                <a href="{{ route('banhang.index') }}" id="logo"><img src="{{ asset('assets/dest/images/logo-cake.png') }}" width="200px" alt=""></a>
+                <a href="{{ route('banhang.index') }}" id="logo"><img
+                        src="{{ asset('assets/dest/images/logo-cake.png') }}" width="200px" alt=""></a>
             </div>
             <div class="pull-right beta-components space-left ov">
                 <div class="space10">&nbsp;</div>
@@ -41,39 +43,51 @@
 
                 <div class="beta-comp">
                     @if(Session::has('cart'))
-                    <div class="cart">
-                        <div class="beta-select"><i class="fa fa-shopping-cart"></i> Giỏ hàng (@if(Session::has('cart')){{ Session('cart')->totalQty }} @else Trống @endif) <i class="fa fa-chevron-down"></i></div>
-                        <div class="beta-dropdown cart-body">
-                            @foreach(Session('cart')->items as $product)
-                            <div class="cart-item">
-                                <a class="cart-item-delete" href="{{ route('banhang.delcart', $product['item']['id']) }}"><i class="fa fa-times"></i></a>
-                                <div class="media">
-                                    <a class="pull-left" href="#"><img src="{{ asset('images/product/'.$product['item']['image']) }}" alt=""></a>
-                                    <div class="media-body">
-                                        <span class="cart-item-title">{{$product['item']['name']}}</span>
-                                        <span class="cart-item-options">Số lượng: {{$product['qty']}}</span>
-                                        <span class="cart-item-amount"><span>{{number_format($product['item']['unit_price'])}} đồng</span></span>
+                        <div class="cart">
+                            <div class="beta-select"><i class="fa fa-shopping-cart"></i> Giỏ hàng
+                                (@if(Session::has('cart')){{ Session('cart')->totalQty }} @else Trống @endif) <i
+                                    class="fa fa-chevron-down"></i></div>
+                            <div class="beta-dropdown cart-body">
+                                @foreach(Session('cart')->items as $product)
+                                    <div class="cart-item">
+                                        <a class="cart-item-delete"
+                                            href="{{ route('banhang.delcart', $product['item']['id']) }}"><i
+                                                class="fa fa-times"></i></a>
+                                        <div class="media">
+                                            <a class="pull-left" href="#"><img
+                                                    src="{{ asset('images/product/' . $product['item']['image']) }}" alt=""></a>
+                                            <div class="media-body">
+                                                <span class="cart-item-title">{{$product['item']['name']}}</span>
+                                                <span class="cart-item-options">Số lượng: {{$product['qty']}}</span>
+                                                <span class="cart-item-amount"><span>{{number_format($product['item']['unit_price'])}}
+                                                        đồng</span></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                @endforeach
+
+                                <div class="cart-caption">
+                                    <div class="cart-total text-right">Tổng tiền: <span
+                                            class="cart-total-value">{{number_format(Session('cart')->totalPrice)}}
+                                            đồng</span></div>
+                                    <div class="clearfix"></div>
+
+                                    <div class="center">
+                                        <div class="space10">&nbsp;</div>
+                                        <a href="{{ route('banhang.getcart') }}" class="beta-btn primary text-center">Xem
+                                            giỏ hàng <i class="fa fa-shopping-cart"></i></a>
+                                        <a href="{{ route('banhang.getcheckout') }}"
+                                            class="beta-btn primary text-center">Đặt hàng <i
+                                                class="fa fa-chevron-right"></i></a>
                                     </div>
                                 </div>
                             </div>
-                            @endforeach
-
-                            <div class="cart-caption">
-                                <div class="cart-total text-right">Tổng tiền: <span class="cart-total-value">{{number_format(Session('cart')->totalPrice)}} đồng</span></div>
-                                <div class="clearfix"></div>
-
-                                <div class="center">
-                                    <div class="space10">&nbsp;</div>
-                                    <a href="{{ route('banhang.getcart') }}" class="beta-btn primary text-center">Xem giỏ hàng <i class="fa fa-shopping-cart"></i></a>
-                                    <a href="{{ route('banhang.getcheckout') }}" class="beta-btn primary text-center">Đặt hàng <i class="fa fa-chevron-right"></i></a>
-                                </div>
-                            </div>
-                        </div>
-                    </div> <!-- .cart -->
+                        </div> <!-- .cart -->
                     @else
-                    <div class="cart">
-                        <div class="beta-select"><i class="fa fa-shopping-cart"></i> Giỏ hàng (Trống) <i class="fa fa-chevron-down"></i></div>
-                    </div>
+                        <div class="cart">
+                            <div class="beta-select"><i class="fa fa-shopping-cart"></i> Giỏ hàng (Trống) <i
+                                    class="fa fa-chevron-down"></i></div>
+                        </div>
                     @endif
                 </div>
             </div>
@@ -82,7 +96,8 @@
     </div> <!-- .header-body -->
     <div class="header-bottom" style="background-color: #0277b8;">
         <div class="container">
-            <a class="visible-xs beta-menu-toggle pull-right" href="#"><span class='beta-menu-toggle-text'>Menu</span> <i class="fa fa-bars"></i></a>
+            <a class="visible-xs beta-menu-toggle pull-right" href="#"><span class='beta-menu-toggle-text'>Menu</span>
+                <i class="fa fa-bars"></i></a>
             <div class="visible-xs clearfix"></div>
             <nav class="main-menu">
                 <ul class="l-inline ov">
