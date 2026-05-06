@@ -30,7 +30,7 @@
 
                     <div class="form-block">
                         <label for="name">Họ tên*</label>
-                        <input type="text" name="name" id="name" placeholder="Họ tên" required>
+                        <input type="text" name="name" id="name" placeholder="Họ tên" required value="{{ Auth::check() ? Auth::user()->full_name : '' }}">
                     </div>
                     <div class="form-block">
                         <label>Giới tính </label>
@@ -40,22 +40,27 @@
 
                     <div class="form-block">
                         <label for="email">Email*</label>
-                        <input type="email" name="email" id="email" required placeholder="example@gmail.com">
+                        <input type="email" name="email" id="email" required placeholder="example@gmail.com" value="{{ Auth::check() ? Auth::user()->email : '' }}">
                     </div>
 
                     <div class="form-block">
                         <label for="address">Địa chỉ*</label>
-                        <input type="text" name="address" id="address" placeholder="Địa chỉ giao hàng" required>
+                        <input type="text" name="address" id="address" placeholder="Địa chỉ giao hàng" required value="{{ Auth::check() ? Auth::user()->address : '' }}">
                     </div>
 
                     <div class="form-block">
                         <label for="phone">Điện thoại*</label>
-                        <input type="text" name="phone" id="phone" required>
+                        <input type="text" name="phone" id="phone" required value="{{ Auth::check() ? Auth::user()->phone : '' }}">
                     </div>
                     
                     <div class="form-block">
                         <label for="notes">Ghi chú</label>
                         <textarea name="notes" id="notes"></textarea>
+                    </div>
+
+                    <div class="form-block">
+                        <label for="coupon">Mã giảm giá</label>
+                        <input type="text" name="coupon" id="coupon" placeholder="Nhập mã giảm giá nếu có">
                     </div>
                 </div>
                 <div class="col-sm-6">
@@ -78,8 +83,18 @@
                                 @endif
                             </div>
                             <div class="your-order-item">
-                                <div class="pull-left"><p class="your-order-f18">Tổng tiền:</p></div>
+                                <div class="pull-left"><p class="your-order-f18">Tạm tính:</p></div>
                                 <div class="pull-right"><h5 class="color-black">@if(Session::has('cart')) {{ number_format(Session('cart')->totalPrice) }} @else 0 @endif đồng</h5></div>
+                                <div class="clearfix"></div>
+                            </div>
+                            <div class="your-order-item">
+                                <div class="pull-left"><p class="your-order-f18">Phí vận chuyển:</p></div>
+                                <div class="pull-right"><h5 class="color-black">30,000 đồng</h5></div>
+                                <div class="clearfix"></div>
+                            </div>
+                            <div class="your-order-item">
+                                <div class="pull-left"><p class="your-order-f18">Tổng cộng:</p></div>
+                                <div class="pull-right"><h5 class="color-black">@if(Session::has('cart')) {{ number_format(Session('cart')->totalPrice + 30000) }} @else 0 @endif đồng</h5></div>
                                 <div class="clearfix"></div>
                             </div>
                         </div>

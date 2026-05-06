@@ -110,6 +110,7 @@
                         </ul>
                     </li>
                     <li><a href="#">Giới thiệu</a></li>
+                    <li><a href="{{ route('khachhang.wishlist') }}">Yêu thích</a></li>
                     <li><a href="{{ route('banhang.getcontact') }}">Liên hệ</a></li>
                 </ul>
                 <div class="clearfix"></div>

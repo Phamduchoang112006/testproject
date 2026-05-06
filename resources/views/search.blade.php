@@ -36,6 +36,7 @@
                         </div>
                         <div class="single-item-caption">
                             <a class="add-to-cart pull-left" href="{{ route('banhang.addtocart',$p->id) }}"><i class="fa fa-shopping-cart"></i></a>
+                            <a class="wishlist-btn pull-left" href="{{ route('khachhang.addwishlist', $p->id) }}" style="margin-left: 10px; font-size: 20px; color: #f0ad4e;"><i class="fa fa-heart"></i></a>
                             <a class="beta-btn primary" href="{{ route('banhang.chitiet',$p->id) }}">Chi tiết <i class="fa fa-chevron-right"></i></a>
                             <div class="clearfix"></div>
                         </div>

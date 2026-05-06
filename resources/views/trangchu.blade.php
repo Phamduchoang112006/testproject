@@ -57,6 +57,7 @@
                         </div>
                         <div class="single-item-caption">
                             <a class="add-to-cart pull-left" href="{{ route('banhang.addtocart',$new_product->id) }}"><i class="fa fa-shopping-cart"></i></a>
+                            <a class="wishlist-btn pull-left" href="{{ route('khachhang.addwishlist', $new_product->id) }}" style="margin-left: 10px; font-size: 20px; color: #f0ad4e;"><i class="fa fa-heart"></i></a>
                             <a class="beta-btn primary" href="{{ route('banhang.chitiet',$new_product->id) }}">Chi tiết <i class="fa fa-chevron-right"></i></a>
                             <div class="clearfix"></div>
                         </div>
@@ -104,6 +105,7 @@
                         </div>
                         <div class="single-item-caption">
                             <a class="add-to-cart pull-left" href="{{ route('banhang.addtocart',$top->id) }}"><i class="fa fa-shopping-cart"></i></a>
+                            <a class="wishlist-btn pull-left" href="{{ route('khachhang.addwishlist', $top->id) }}" style="margin-left: 10px; font-size: 20px; color: #f0ad4e;"><i class="fa fa-heart"></i></a>
                             <a class="beta-btn primary" href="{{ route('banhang.chitiet',$top->id) }}">Chi tiết <i class="fa fa-chevron-right"></i></a>
                             <div class="clearfix"></div>
                         </div>
@@ -145,6 +147,7 @@
                         </div>
                         <div class="single-item-caption">
                             <a class="add-to-cart pull-left" href="{{ route('banhang.addtocart',$pro->id) }}"><i class="fa fa-shopping-cart"></i></a>
+                            <a class="wishlist-btn pull-left" href="{{ route('khachhang.addwishlist', $pro->id) }}" style="margin-left: 10px; font-size: 20px; color: #f0ad4e;"><i class="fa fa-heart"></i></a>
                             <a class="beta-btn primary" href="{{ route('banhang.chitiet',$pro->id) }}">Chi tiết <i class="fa fa-chevron-right"></i></a>
                             <div class="clearfix"></div>
                         </div>
@@ -192,6 +195,7 @@
                         </div>
                         <div class="single-item-caption">
                             <a class="add-to-cart pull-left" href="{{ route('banhang.addtocart',$all->id) }}"><i class="fa fa-shopping-cart"></i></a>
+                            <a class="wishlist-btn pull-left" href="{{ route('khachhang.addwishlist', $all->id) }}" style="margin-left: 10px; font-size: 20px; color: #f0ad4e;"><i class="fa fa-heart"></i></a>
                             <a class="beta-btn primary" href="{{ route('banhang.chitiet',$all->id) }}">Chi tiết <i class="fa fa-chevron-right"></i></a>
                             <div class="clearfix"></div>
                         </div>

@@ -107,6 +107,9 @@ Route::get('/dangxuat',[PageController::class,'getLogout'])->name('getlogout');
 Route::group(['prefix' => 'khach-hang', 'middleware' => 'auth'], function() {
     Route::get('/thong-tin', [PageController::class, 'getProfile'])->name('khachhang.profile');
     Route::post('/thong-tin', [PageController::class, 'postProfile'])->name('khachhang.postProfile');
+    Route::get('/wishlist', [PageController::class, 'getWishlist'])->name('khachhang.wishlist');
+    Route::get('/add-to-wishlist/{id}', [PageController::class, 'addToWishlist'])->name('khachhang.addwishlist');
+    Route::get('/del-wishlist/{id}', [PageController::class, 'delWishlist'])->name('khachhang.delwishlist');
 });
 
 // Admin routes

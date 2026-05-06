@@ -11,6 +11,8 @@ use App\Models\User;
 use App\Models\Customer;
 use App\Models\Bill;
 use App\Models\BillDetail;
+use App\Models\Wishlist;
+use App\Models\Coupon;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
@@ -159,6 +161,13 @@ class PageController extends Controller
     }
 
     public function postCheckout(Request $req){
+        $req->validate([
+            'name' => 'required',
+            'gender' => 'required',
+            'email' => 'required|email',
+            'address' => 'required',
+            'phone' => 'required'
+        ]);
         $cart = Session::get('cart');
 
         $customer = new Customer;
@@ -173,9 +182,27 @@ class PageController extends Controller
         $bill = new Bill;
         $bill->id_customer = $customer->id;
         $bill->date_order = date('Y-m-d');
-        $bill->total = $cart->totalPrice;
+        
+        $total = $cart->totalPrice;
+        $discount = 0;
+        if($req->coupon) {
+            $coupon = Coupon::where('code', $req->coupon)->first();
+            if($coupon) {
+                if($coupon->type == 'percentage') {
+                    $discount = ($total * $coupon->value) / 100;
+                } else {
+                    $discount = $coupon->value;
+                }
+            }
+        }
+        
+        $shipping_fee = 30000;
+        $bill->total = $total - $discount + $shipping_fee;
+        $bill->discount = $discount;
+        $bill->shipping_fee = $shipping_fee;
         $bill->payment = $req->payment_method;
         $bill->note = $req->notes;
+        $bill->status = 'mới';
         $bill->save();
 
         foreach ($cart->items as $key => $value) {
@@ -233,5 +260,34 @@ class PageController extends Controller
         }
         $user->save();
         return redirect()->back()->with('thongbao', 'Cập nhật thông tin thành công');
+    }
+
+    public function getWishlist(){
+        if(!Auth::check()) return redirect()->route('getlogin');
+        $wishlist = Wishlist::where('id_user', Auth::id())->get();
+        return view('wishlist', compact('wishlist'));
+    }
+
+    public function addToWishlist($id){
+        if(!Auth::check()) return redirect()->route('getlogin');
+        $check = Wishlist::where('id_user', Auth::id())->where('id_product', $id)->first();
+        if(!$check) {
+            $wishlist = new Wishlist();
+            $wishlist->id_user = Auth::id();
+            $wishlist->id_product = $id;
+            $wishlist->save();
+            return redirect()->back()->with('thongbao', 'Đã thêm vào sản phẩm yêu thích');
+        }
+        return redirect()->back()->with('thongbao', 'Sản phẩm đã có trong danh sách yêu thích');
+    }
+
+    public function delWishlist($id){
+        if(!Auth::check()) return redirect()->route('getlogin');
+        $wishlist = Wishlist::where('id_user', Auth::id())->where('id_product', $id)->first();
+        if($wishlist) {
+            $wishlist->delete();
+            return redirect()->back()->with('thongbao', 'Đã xóa khỏi sản phẩm yêu thích');
+        }
+        return redirect()->back();
     }
 }
